@@ -3,6 +3,10 @@
 
 This is an excellent example of a golang project that has adopted this structure.
 
+## Get Dependencies
+
+`go mod download`
+
 ## Build
 
 `go build main.go`
