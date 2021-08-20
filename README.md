@@ -18,3 +18,10 @@ This is an excellent example of a golang project that has adopted this structure
 ## Run
 
 `go run main.go`
+
+### CREDITS
+Original work authored by [Franklin Carrero](https://github.com/fmcarrero/bookstore_utils-go/) as MIT licensed
+
+### LICENSE
+MIT
+Copyright (c) 2021 kiwsan
