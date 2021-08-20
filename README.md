@@ -20,7 +20,8 @@ This is an excellent example of a golang project that has adopted this structure
 `go run main.go`
 
 ### CREDITS
-Original work authored by [Franklin Carrero](https://github.com/fmcarrero/bookstore_utils-go/) as MIT licensed
+Original work authored by [Franklin Carrero](https://github.com/fmcarrero/bookstore_utils-go/) as MIT licensed and [
+Eder Férnandez Baldovino](https://github.com/ederj98/movies-microservice)
 
 ### LICENSE
 MIT
