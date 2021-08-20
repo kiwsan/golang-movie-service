@@ -15,6 +15,11 @@ This is an excellent example of a golang project that has adopted this structure
 
 `go test ./...`
 
+## Environments
+Generate .env file and edit configuration settings.
+
+`cp .env.example .env`
+
 ## Run
 
 `go run main.go`
