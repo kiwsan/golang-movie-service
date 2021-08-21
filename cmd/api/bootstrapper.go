@@ -4,7 +4,10 @@ import (
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
+	"github.com/golobby/container/v3"
+	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
+	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/configs"
 	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/containers"
 	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/middlewares"
 	_ "github.com/kiwsan/golang-movie-service/docs"
@@ -46,7 +49,17 @@ func StartApplication() {
 	// Serve frontend static files
 	router.Use(static.Serve("/", static.LocalFile(".", true)))
 
-	goValidator := validator.New()
+	// Singleton
+	container.NamedSingleton("validator", func() *validator.Validate {
+		return validator.New()
+	})
+
+	// Transient
+	container.NamedSingleton("sql", func() *gorm.DB {
+		return configs.GetDatabaseInstance()
+	})
+
+	v := validator.New()
 
 	// Setup route group for the API
 	v1 := router.Group("/api/v1")
@@ -55,8 +68,8 @@ func StartApplication() {
 		v1.GET("/healthcheck", containers.GetHealthCheckController().HealthCheck)
 		v1.GET("/movies", containers.GetMovieFindAllController().Browse)
 		v1.GET("/movies/:id", containers.GetMovieFindController().Find)
-		v1.POST("/movies", containers.GetMovieCreateController(goValidator).Post)
-		v1.PATCH("/movies/:id", containers.GetMovieUpdateController(goValidator).Put)
+		v1.POST("/movies", containers.GetMovieCreateController(v).Post)
+		v1.PATCH("/movies/:id", containers.GetMovieUpdateController(v).Put)
 		v1.DELETE("/movies/:id", containers.GetMovieDeleteController().Delete)
 
 	}
