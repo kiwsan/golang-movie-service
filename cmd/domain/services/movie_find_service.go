@@ -3,7 +3,7 @@ package services
 import (
 	"fmt"
 
-	"github.com/kiwsan/golang-movie-service/cmd/domain/exception"
+	"github.com/kiwsan/golang-movie-service/cmd/domain/exceptions"
 	"github.com/kiwsan/golang-movie-service/cmd/domain/models"
 	"github.com/kiwsan/golang-movie-service/cmd/domain/repositories"
 	"github.com/kiwsan/golang-movie-service/pkg/logger"
@@ -14,8 +14,8 @@ type IMovieFindService interface {
 }
 
 type MovieFindService struct {
-	MovieRepository      repositories.MovieRepository
-	MovieRedisRepository repositories.MovieRedisRepository
+	MovieRepository      repositories.IMovieRepository
+	MovieRedisRepository repositories.IMovieRedisRepository
 }
 
 func (service *MovieFindService) Find(id int64) (movie models.Movie, err error) {
@@ -26,7 +26,7 @@ func (service *MovieFindService) Find(id int64) (movie models.Movie, err error) 
 	if err != nil {
 		movie, err = service.MovieRepository.Find(id)
 		if err != nil {
-			err = exception.DataNotFound{ErrMessage: errorNotFoundRepository}
+			err = exceptions.DataNotFound{ErrMessage: errorNotFoundRepository}
 			logger.Error(errorRepository, err)
 			return models.Movie{}, err
 		}

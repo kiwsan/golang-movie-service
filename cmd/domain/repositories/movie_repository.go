@@ -2,7 +2,7 @@ package repositories
 
 import "github.com/kiwsan/golang-movie-service/cmd/domain/models"
 
-type MovieRepository interface {
+type IMovieRepository interface {
 	Create(models.Movie) error
 	Exist(string) bool
 	Find(int64) (models.Movie, error)

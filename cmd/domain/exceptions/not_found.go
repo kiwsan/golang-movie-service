@@ -1,4 +1,4 @@
-package exception
+package exceptions
 
 type NotFound interface {
 	Error() string

@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 
-	"github.com/kiwsan/golang-movie-service/cmd/domain/exception"
+	"github.com/kiwsan/golang-movie-service/cmd/domain/exceptions"
 	"github.com/kiwsan/golang-movie-service/cmd/domain/models"
 	"github.com/kiwsan/golang-movie-service/cmd/domain/repositories"
 	"github.com/kiwsan/golang-movie-service/pkg/logger"
@@ -14,14 +14,14 @@ type IMovieCreateService interface {
 }
 
 type MovieCreateService struct {
-	MovieRepository repositories.MovieRepository
+	MovieRepository repositories.IMovieRepository
 }
 
 func (service *MovieCreateService) Add(movie models.Movie) (err error) {
 
 	exist := service.MovieRepository.Exist(movie.Name)
 	if exist {
-		exp := exception.DataDuplicity{ErrMessage: errorExistRepository}
+		exp := exceptions.DataDuplicity{ErrMessage: errorExistRepository}
 		logger.Error(errorExistRepository, exp)
 		return exp
 	}

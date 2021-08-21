@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 
-	"github.com/kiwsan/golang-movie-service/cmd/domain/exception"
+	"github.com/kiwsan/golang-movie-service/cmd/domain/exceptions"
 	"github.com/kiwsan/golang-movie-service/cmd/domain/repositories"
 	"github.com/kiwsan/golang-movie-service/pkg/logger"
 )
@@ -13,14 +13,14 @@ type IMovieDeleteService interface {
 }
 
 type MovieDeleteService struct {
-	MovieRepository repositories.MovieRepository
+	MovieRepository repositories.IMovieRepository
 }
 
 func (service *MovieDeleteService) Remove(id int64) (err error) {
 
 	_, exist := service.MovieRepository.Find(id)
 	if exist != nil {
-		err = exception.DataNotFound{ErrMessage: errorNotFoundRepository}
+		err = exceptions.DataNotFound{ErrMessage: errorNotFoundRepository}
 		return err
 	}
 

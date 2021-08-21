@@ -20,7 +20,7 @@ Generate .env file and edit configuration settings.
 
 `cp .env.example .env`
 
-## Run
+## Run app, and browse to http://localhost:8080/swagger/index.html. You will see Swagger 2.0 Api documents.
 
 `go run main.go`
 

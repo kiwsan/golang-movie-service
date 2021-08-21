@@ -1,4 +1,4 @@
-package exception
+package exceptions
 
 type Duplicity interface {
 	Error() string
