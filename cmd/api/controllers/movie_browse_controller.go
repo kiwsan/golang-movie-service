@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/kiwsan/golang-movie-service/cmd/application/queries"
 	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/marshallers"
-	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/utils"
 	"github.com/kiwsan/golang-movie-service/pkg/apierrors"
 )
 
@@ -33,9 +32,6 @@ func (controller *MovieFindAllController) Browse(context *gin.Context) {
 		err := apierrors.NewNotFoundApiError(failedFindAllMovies)
 		context.JSON(err.Status(), err)
 	}
-
-	//Resty usage test
-	utils.RestyGet()
 
 	context.JSON(http.StatusOK, marshallers.MarshallArray(movies))
 }
