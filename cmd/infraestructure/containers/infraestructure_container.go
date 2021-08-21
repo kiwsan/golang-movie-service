@@ -1,6 +1,7 @@
 package containers
 
 import (
+	"github.com/go-playground/validator"
 	"github.com/kiwsan/golang-movie-service/cmd/api/controllers"
 	irepository "github.com/kiwsan/golang-movie-service/cmd/domain/repositories"
 	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/configs"
@@ -11,12 +12,18 @@ func GetHealthCheckController() *controllers.HealthCheckController {
 	return &controllers.HealthCheckController{}
 }
 
-func GetMovieCreateController() *controllers.MovieCreateController {
-	return &controllers.MovieCreateController{IMovieCreateCommand: GetMovieCreationAccessApplication()}
+func GetMovieCreateController(validate *validator.Validate) *controllers.MovieCreateController {
+	return &controllers.MovieCreateController{
+		InputValidate:       validate,
+		IMovieCreateCommand: GetMovieCreationAccessApplication(),
+	}
 }
 
-func GetMovieUpdateController() *controllers.MovieUpdateController {
-	return &controllers.MovieUpdateController{IMovieUpdateCommand: GetMovieUpdateAccessApplication()}
+func GetMovieUpdateController(validate *validator.Validate) *controllers.MovieUpdateController {
+	return &controllers.MovieUpdateController{
+		InputValidate:       validate,
+		IMovieUpdateCommand: GetMovieUpdateAccessApplication(),
+	}
 }
 
 func GetMovieDeleteController() *controllers.MovieDeleteController {

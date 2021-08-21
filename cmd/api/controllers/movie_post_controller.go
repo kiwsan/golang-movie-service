@@ -5,12 +5,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
 	"github.com/kiwsan/golang-movie-service/cmd/application/commands"
 	"github.com/kiwsan/golang-movie-service/cmd/domain/models"
 	"github.com/kiwsan/golang-movie-service/pkg/apierrors"
 )
 
 type MovieCreateController struct {
+	InputValidate       *validator.Validate
 	IMovieCreateCommand commands.IMovieCreateCommand
 }
 
@@ -47,6 +49,14 @@ func (controller *MovieCreateController) mapToMovie(c *gin.Context) (movie model
 		c.JSON(restErr.Status(), restErr)
 		return
 	}
+
+	// validation fields
+	if validator := controller.InputValidate.Struct(response); validator != nil {
+		restErr := apierrors.NewApiError("Invalid input", validator.Error(), 400, nil)
+		c.JSON(restErr.Status(), restErr)
+		return
+	}
+
 	return response
 }
 

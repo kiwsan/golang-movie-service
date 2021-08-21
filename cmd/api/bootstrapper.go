@@ -3,6 +3,7 @@ package startup
 import (
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
 	"github.com/joho/godotenv"
 	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/containers"
 	"github.com/kiwsan/golang-movie-service/cmd/infraestructure/middlewares"
@@ -45,6 +46,8 @@ func StartApplication() {
 	// Serve frontend static files
 	router.Use(static.Serve("/", static.LocalFile(".", true)))
 
+	goValidator := validator.New()
+
 	// Setup route group for the API
 	v1 := router.Group("/api/v1")
 	{
@@ -52,8 +55,8 @@ func StartApplication() {
 		v1.GET("/healthcheck", containers.GetHealthCheckController().HealthCheck)
 		v1.GET("/movies", containers.GetMovieFindAllController().Browse)
 		v1.GET("/movies/:id", containers.GetMovieFindController().Find)
-		v1.POST("/movies", containers.GetMovieCreateController().Post)
-		v1.PUT("/movies/:id", containers.GetMovieUpdateController().Put)
+		v1.POST("/movies", containers.GetMovieCreateController(goValidator).Post)
+		v1.PATCH("/movies/:id", containers.GetMovieUpdateController(goValidator).Put)
 		v1.DELETE("/movies/:id", containers.GetMovieDeleteController().Delete)
 
 	}

@@ -6,12 +6,14 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
 	"github.com/kiwsan/golang-movie-service/cmd/application/commands"
 	"github.com/kiwsan/golang-movie-service/cmd/domain/models"
 	"github.com/kiwsan/golang-movie-service/pkg/apierrors"
 )
 
 type MovieUpdateController struct {
+	InputValidate       *validator.Validate
 	IMovieUpdateCommand commands.IMovieUpdateCommand
 }
 
@@ -55,5 +57,13 @@ func (controller *MovieUpdateController) mapToMovieUpdate(c *gin.Context) (id in
 		c.JSON(exp.Status(), exp)
 		return
 	}
+
+	// validation fields
+	if validator := controller.InputValidate.Struct(response); validator != nil {
+		restErr := apierrors.NewApiError("Invalid input", validator.Error(), 400, nil)
+		c.JSON(restErr.Status(), restErr)
+		return
+	}
+
 	return id, response
 }
