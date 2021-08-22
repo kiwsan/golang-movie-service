@@ -1,4 +1,4 @@
-package services
+package services_test
 
 const (
 	errorRepository         = "error getting repository information"
